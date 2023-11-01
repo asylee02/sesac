@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title> 
+</head>
+<body>
+  <h1>DOM/JS 이해하기</h1>
+  <p>DOM이 무엇인지 배워봅시다.</p>
+  <p id='demo'></p>
+  <button type="button" onclick="document.getElementById('demo').innerHTML = Date()">Click me</button>
+  <h1>버튼을 통한 값 변경</h1>
+  <div id='result'>0</div>
+  <div>
+    <button onclick="plus()">증가</button>
+    <button onclick="minus()">감소</button>
+  </div>
+
+  <script>
+    function plus(){
+      const a = document.getElementById('result')
+      a.innerHTML=parseInt(a.innerHTML) + 1;
+    }
+    function minus(){
+      const a = document.getElementById('result')
+      a.innerHTML = parseInt(a.innerHTML) - 1; 
+    }
+  </script>
+</body>
+</html> 

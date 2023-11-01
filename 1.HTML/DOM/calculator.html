@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="calculator.css">
+  <title>Document</title>
+</head>
+<body>
+  <main> 
+    <header>
+      <div id="screen">
+        <div id="big"></div>
+      </div>
+    </header>
+    
+    <section>
+      <button onclick="number(event)" id="plus">+</button>
+      <button onclick="number(event)" id="minus">-</button>
+      <button onclick="number(event)" id="divide">*</button>
+      <button onclick="number(event)" id="multiple">/</button>
+
+      <button onclick="number(event)" id="seven">7</button>
+      <button onclick="number(event)" id="eight">8</button>
+      <button onclick="number(event)" id="nine">9</button>
+      <button onclick="handdleresult(event)" id="result">=</button>
+
+      <button onclick="number(event)" id="four">4</button>
+      <button onclick="number(event)" id="five">5</button>
+      <button onclick="number(event)" id="six">6</button>
+      <button onclick="handdlecancle(event)" id="cancle">C</button>
+    
+      <button onclick="number(event)" id="one">1</button>
+      <button onclick="number(event)" id="two">2</button>
+      <button onclick="number(event)" id="three">3</button>
+      <button onclick="number(event)" id="zero">0</button>
+    </section>
+  </main>
+
+
+<script src="calculator.js"></script>
+</body>
+</html>
