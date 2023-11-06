@@ -1,0 +1,122 @@
+[
+  {
+    "Id": "0de45cf24f",
+    "Name": "Espresso",
+    "Type": "Coffee",
+    "UnitPrice": 3000
+  },
+  {
+    "Id": "279de9cfc4",
+    "Name": "RedVelvetCake",
+    "Type": "Cake",
+    "UnitPrice": 6000
+  },
+  {
+    "Id": "597b4124c6",
+    "Name": "Cappuccino",
+    "Type": "Coffee",
+    "UnitPrice": 3500
+  },
+  {
+    "Id": "eb17344a7c",
+    "Name": "RedVelvetCake",
+    "Type": "Cake",
+    "UnitPrice": 6000
+  },
+  {
+    "Id": "bc9049a47c",
+    "Name": "StrawberryCake",
+    "Type": "Cake",
+    "UnitPrice": 4500
+  },
+  {
+    "Id": "d94f038f10",
+    "Name": "OrangeCake",
+    "Type": "Cake",
+    "UnitPrice": 4500
+  },
+  {
+    "Id": "c51488b5c7",
+    "Name": "OrangeCake",
+    "Type": "Cake",
+    "UnitPrice": 4500
+  },
+  {
+    "Id": "5471eaaf6a",
+    "Name": "Mocha",
+    "Type": "Coffee",
+    "UnitPrice": 4000
+  },
+  {
+    "Id": "265368ac71",
+    "Name": "LemonCake",
+    "Type": "Cake",
+    "UnitPrice": 5000
+  },
+  {
+    "Id": "984c2861eb",
+    "Name": "GrapeCake",
+    "Type": "Cake",
+    "UnitPrice": 5000
+  },
+  {
+    "Id": "d3676fa286",
+    "Name": "OrangeCake",
+    "Type": "Cake",
+    "UnitPrice": 4500
+  },
+  {
+    "Id": "b0317232a9",
+    "Name": "ChocolateCake",
+    "Type": "Cake",
+    "UnitPrice": 5500
+  },
+  {
+    "Id": "1895a26a31",
+    "Name": "GrapeCake",
+    "Type": "Cake",
+    "UnitPrice": 5000
+  },
+  {
+    "Id": "721abdc6d6",
+    "Name": "GrapeCake",
+    "Type": "Cake",
+    "UnitPrice": 5000
+  },
+  {
+    "Id": "84ed04a9b5",
+    "Name": "Cappuccino",
+    "Type": "Coffee",
+    "UnitPrice": 3500
+  },
+  {
+    "Id": "ac5349ccd9",
+    "Name": "Cappuccino",
+    "Type": "Coffee",
+    "UnitPrice": 3500
+  },
+  {
+    "Id": "f24316eb37",
+    "Name": "Latte",
+    "Type": "Coffee",
+    "UnitPrice": 3500
+  },
+  {
+    "Id": "6f4fc89280",
+    "Name": "RedVelvetCake",
+    "Type": "Cake",
+    "UnitPrice": 6000
+  },
+  {
+    "Id": "eb33ddf280",
+    "Name": "StrawberryCake",
+    "Type": "Cake",
+    "UnitPrice": 4500
+  },
+  {
+    "Id": "d914062430",
+    "Name": "OrangeCake",
+    "Type": "Cake",
+    "UnitPrice": 4500
+  }
+]

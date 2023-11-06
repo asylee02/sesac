@@ -56,6 +56,7 @@ function handdlecancle(){
 // = 버튼 누를 시 결과 도출
 function handdleresult(){
   numbers.push(value);
+  value = ''
   priority()
   while(numbers.length!=1){
     const first = numbers.shift()
@@ -64,6 +65,7 @@ function handdleresult(){
     haddlecalculate(first, second, oper);
   }
   big.innerText=numbers[0]
+  console.log('hellos')
 
 }
 
@@ -75,11 +77,12 @@ function haddlecalculate(first,second,oper){
     //연산을 한번 하고나면, 배열을 초기화하고 결과값을 배열에 넣기
     case '+':
       answer = (+first) + (+second)
-      numbers.push(answer);
+      numbers.push(answer)
+      console.log(`handdlecalculate ${value}`)
       break;
-    case '/':
-      answer = (+first) / (+second)
-      numbers.push(answer);
+    case '-':
+      answer = (+first) - (+second)
+      numbers.push(answer)
       break;
   }
 }
@@ -90,11 +93,18 @@ function priority(){
   if(operatored[operatored.length-1]=='*'){
     operatored.pop()
     const answer = (+numbers.pop()) * (+numbers.pop())
-    numbers.push(answer);
+    numbers.push(answer)
   }
   if(operatored[operatored.length-1]=='/'){
     operatored.pop()
-    const answer = (+numbers.pop()) / (+numbers.pop())
-    numbers.push(answer);
+    const first = numbers.pop()
+    const second = numbers.pop()
+    if(first == 0){
+      big.innerText='infinity'
+    }
+    else{
+    const answer = (+first) / (+second)
+    numbers.push(answer)
+  }
   }
 }
