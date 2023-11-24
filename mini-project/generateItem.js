@@ -50,7 +50,7 @@ function genearteId() {
   const data = 'item'+String(count);
   const hash = crypto.createHash('sha256');
   hash.update(data);
-  return hash.digest('hex').slice(0,10);
+  return hash.digest('hex');
 }
 
 function generateType(){

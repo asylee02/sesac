@@ -32,7 +32,7 @@ function genearteId() {
   const data = 'order'+String(count);
   const hash = crypto.createHash('sha256');
   hash.update(data);
-  return hash.digest('hex').slice(0,10);
+  return hash.digest('hex');
 }
 
 function changeJson(){
@@ -46,7 +46,7 @@ const order = [];
 
 generateUserId(function(userId){
   generateStoreId(function(st_Id){
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 10000; i++) {
       const people_num = Math.floor(Math.random() * 1000);
       const store_num = Math.floor(Math.random() * 100);
       count=i+1;

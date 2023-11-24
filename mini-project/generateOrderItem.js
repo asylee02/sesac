@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const filePath = path.join(__dirname, 'json','order.json');
 const filePath2 = path.join(__dirname, 'json', 'item.json');
 let count =0;
-
+ 
 function generateOrderId(callback){
 fs.readFile(filePath, 'utf-8', (err, data) => {
   const OrderData = JSON.parse(data);
@@ -24,7 +24,7 @@ function genearteId() {
   const data = 'orderitem'+String(count);
   const hash = crypto.createHash('sha256');
   hash.update(data);
-  return hash.digest('hex').slice(0,10);
+  return hash.digest('hex');
 }
 
 function changeJson(){

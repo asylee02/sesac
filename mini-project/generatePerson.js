@@ -11,11 +11,11 @@ const addressList = [
   ["서울특별시", '강남구', '강동구', '강북구', '강서구', '관악구', '광진구', '구로구', '금천구', '노원구', '도봉구', '동대문구', '동작구', '마포구', '서대문구', '서초구', '성동구', '성북구', '송파구', '양천구', '영등포구', '용산구', '은평구', '종로구', '중구', '중랑구'],
   ["대구광역시", '중구', '동구', '서구', '남구', '북구', '수성구', '달서구', '달성군', '군위군']
 ];
-let person_id='';
   function genearteId(data) {
   const hash = crypto.createHash('sha256');
   hash.update(data);
   person_id = hash.digest('hex');
+  return person_id
 }
 
 
@@ -25,7 +25,6 @@ function generateName() {
   const name1 = middle[Math.floor(Math.random() * middle.length)];
   const name2 = last[Math.floor(Math.random() * last.length)];
   const fullname = `${sung}${name1}${name2}`
-  genearteId(fullname)
   return fullname;
 }
 
@@ -64,8 +63,8 @@ function generateAddress() {
 const people = [];
 for (let i = 0; i < 1000; i++) {
   const person = {
+    Id: genearteId('Person'+i),
     Name: generateName(),
-    Id: person_id.slice(0,10),
     Birth: generateBriday(),
     Gender: generateGender(),
     Address: generateAddress(),

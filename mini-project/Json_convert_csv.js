@@ -1,8 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 
+const Json_file = ['order', 'item', 'orderItem', 'Person', 'store']
+
 // JSON 데이터
-const filename ='orderItem'
+for(let i=0; i<Json_file.length; i ++){
+let filename = Json_file[i]
 const filePath = path.join(__dirname, 'json',filename+'.json');
 
 function generateOrderId(callback){
@@ -23,6 +26,7 @@ const csvContent = csvHeader + csvData;
 // CSV 파일로 저장
 const outputPath = path.join(__dirname, 'csv', filename+'.csv');
 fs.writeFileSync(outputPath, csvContent, 'utf-8');
-console.log('CSV 파일이 생성되었습니다.');
+console.log(` ${filename}CSV 파일이 생성되었습니다.`);
 
 })
+}
