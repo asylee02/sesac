@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+table {
+  border-collapse: collapse;
+  border-top: 1px solid #ccc;
+  margin-right:auto;
+  margin-left: auto;
+  text-align: center;
+}
+table th {
+  padding: 10px;
+  border: 1px solid #ccc;
+  background: #eee;
+}
+table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+} 
+table td a{
+    display:block;
+}
+.pagination {
+    margin-top: 20px;
+}
+a{
+text-decoration: none;
+color:black;
+
+}
+.pagination a {
+    color:black;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    margin: 5px;
+    display: inline-block;
+}
+.pagination a:hover{
+    background: lightgray;
+}
+.pagination a.active{
+    background-color: gray;
+}
+table tr:hover{
+    background-color: gray;
+}
