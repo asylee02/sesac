@@ -16,6 +16,7 @@ app.use(session({
 }))
 
 
+
 // app.use((req,res,next )=>{
 //   console.log('Session Info:',req.session);
 //   next();
@@ -25,22 +26,60 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, 'public/static')))
 app.use(bodyParser.text())
 
+function checkLogin(req, res, next){
+  const user = req.session.user;
+  console.log('일단 되긴하나?')
+
+  if(user){
+    console.log('존재함')
+    next();
+  }
+  else{
+    console.log('존재하지 않음)')
+    res.status(401).json({message:'로그인이 필요합니다',redirectUrl:'/'})
+  }
+}
+
+
+const users = [
+  { id: 1, username: 'user1', password: 'password1' },
+  { id: 2, username: 'user2', password: 'password2' },
+];
+
 const products = [
-  { id:1, name: 'Product 1', quantity:1 price:2000},
-  { id:2, name: 'Product 2', quantity:1 price:5000},
-  { id:3, name: 'Product 3', quantity:1 price:3000},
-  { id:4, name: 'Product 4', quantity:1 price:1000},
+  { id:1, name: 'Product 1', quantity:1, price:2000},
+  { id:2, name: 'Product 2', quantity:1, price:5000},
+  { id:3, name: 'Product 3', quantity:1, price:3000},
+  { id:4, name: 'Product 4', quantity:1, price:1000},
 ]
+
+app.get('/',(req,res)=>{
+  const user = req.session.user;
+  res.sendFile(path.join(__dirname, 'public', 'Home.html'))
+})
+
 
 app.get('/product', (req,res)=>{
   res.json(products);
 })
+app.get('/home', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'Home.html'));
+});
 
-app.get('/cart', (req,res)=>{
+app.get('/cart', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'Cart.html'));
+});
+
+app.get('/products', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'Products.html'));
+});
+
+app.get('/cart', checkLogin, (req,res)=>{
+  console.log(checkLogin)
+  console.log(hello)
   const cart=req.session.cart || [];
-
   console.log('Session Info:', req.sessionStore)
-  res.json(cart);
+  res.json(cart)
 })
 
 app.delete('/delete/:productId',(req,res)=>{
@@ -58,23 +97,16 @@ app.put('/update-quantity/:productId',(req,res)=>{
   const productId = parseInt(req.params.productId, 10)
   const type = req.body
   const cart = req.session.cart.map((item)=>{
-    // console.log('현재 item 값',item.id)
-    // console.log('요청값',productId)
-    // console.log(productId)
     if (item.id == productId){
-      // console.log('같음')
       if(type == 'plus'){
         item.quantity = item.quantity+1
         console.log('plus')
       }
       else{
-        if(item.quantity-1 <0){
-          // return res.status(404).json({message : '수량을 0개 미만으로 설정할 수 없습니다.'})
-          
+        if(item.quantity-1 <0){ 
         }
         else{
           item.quantity = item.quantity - 1 
-          // res.json({message:'상품 추가가 되었습니다'})
         }
         console.log('minus')
       }
@@ -83,7 +115,7 @@ app.put('/update-quantity/:productId',(req,res)=>{
     return item
   })
   req.session.cart = cart
-  res.send();
+  console.log(res.session.cart)
 })
 
 
@@ -112,9 +144,25 @@ app.post('/add-to-cart/:productId', (req, res) => {
 
   res.json({ message: '상품이 장바구니에 추가되었습니다.', cart });
 });
+
+
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  // https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+  const user = users.find((u) => u.username === username && u.password === password);
+
+  if (user) {
+      req.session.user = user;
+      res.json({ message: '로그인 성공!' });
+  } else {
+      res.status(401).json({ message: '로그인 실패' });
+  }
+});
+
+
+
 app.listen(port, ()=>{
   console.log(`http://www.localhost:${port}`)
 })
 
-//미션3. 장바구니에 최신것만 남을까
-//미션4. 프론트에서, fetch를 통해서 ...cart 불러와서 테이블 아래에 새로운 테이블 추가하기

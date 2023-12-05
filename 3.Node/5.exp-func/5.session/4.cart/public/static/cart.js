@@ -1,15 +1,41 @@
 
   const header = ["id","name","price"]
   const product = document.querySelector("#productTable tbody")
+  document.addEventListener('DOMContentLoaded', function () {
+    fetchUserInfo();
+    
+    // getCartFromAPI();
+    // getCartFromSessionStorage();
+    // getCartFromLocalStorage();
+});
 
-fetch('/product')
-  .then((res)=>res.json())
-  .then((res)=>display(res))
-  .then(()=>{
-    fetch('/cart')
-      .then((response) => response.json())
-      .then((cart) => displayCart(cart));
+function fetchUserInfo(){
+  fetch('/cart')
+  .then(async (response) => {
+      if (response.status === 200) {
+        console.log('통과')
+          return response.json();
+      } else if (response.status === 401) {
+        console.log('실패')
+          // 401 상태 코드일 경우 로그인이 필요하다는 메시지를 화면에 표시
+          const data = await response.json();
+          alert(data.message);
+
+          // 만약 리다이렉트 URL이 제공되면 해당 URL로 이동
+          if (data.redirectUrl) {
+            console.log('리다이렉트')
+              window.location.href = data.redirectUrl;
+          }
+          
+          throw new Error('Unauthorized');
+      } else {
+          throw new Error('Failed to fetch cart data');
+      }
   })
+  .then((cartData) => displayCart(cartData))
+
+}
+
 
 function display(data){
   if(product){
@@ -36,9 +62,7 @@ window.addToCart = function (productId) {
       .then((data) => {
           alert(data.message);
           // 서버에서 업데이트된 장바구니 정보를 가져와 테이블에 출력
-          fetch('/cart')
-              .then((response) => response.json())
-              .then((cart) => displayCart(cart))
+          fetchUserInfo();
       });
 };
 
@@ -48,6 +72,7 @@ function displayCart(cart) {
   console.log(cartTableBody);
   const plus ="plus";
   const minus ="minus";
+  let total =0;
   // 기존 테이블 내용을 비우고 새로운 내용으(로 업데이트
   cartTableBody.innerHTML = '';
   console.log(cart)
@@ -66,7 +91,14 @@ function displayCart(cart) {
           <td><button  onclick="handleDelete(${item.id})">Remove</button></td>
           `;
       cartTableBody.appendChild(row);
-  });
+      total += item.quantity * item.price;
+    });
+    const price = document.createElement('tr');
+    price.innerHTML= `
+    <td>total </td>
+    <td>${total}</td>
+    `
+    cartTableBody.appendChild(price)
 }
 
 function handleQuantity(id, type){
@@ -77,9 +109,7 @@ function handleQuantity(id, type){
   })
   .then((data) => {
       // 서버에서 업데이트된 장바구니 정보를 가져와 테이블에 출력
-      fetch('/cart')
-          .then((response) => response.json())
-          .then((cart) => displayCart(cart))
+      fetchUserInfo();
   });
 } 
 
@@ -88,12 +118,29 @@ function handleDelete(id){
     method: 'DELETE'
   })
   .then(()=>{
-    fetch('/cart')
-          .then((response) => response.json())
-          .then((cart) => displayCart(cart))
+    fetchUserInfo();
   })
   console.log(id)
 }
+
+function login(){
+  const username = document.querySelector('#username').value
+  const password = document.querySelector('#password').value
+
+
+  fetch('/login', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ username, password }),
+})
+.then((res)=>res.json())
+.then((data)=> alert(data.message))
+}
+
+
+
 
 // Get : 서버에서 데이터 불러오기
 // POST : 서버에 데이터 전송(생성)
