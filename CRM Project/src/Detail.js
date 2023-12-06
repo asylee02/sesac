@@ -1,14 +1,24 @@
-const useapi = 'http://localhost:4004/user/'
+const usparameapi = 'http://localhost:4004'
 let data = '';
+let table_name = '';
+let id='';
 const table = document.querySelector("table");
 const thead = document.querySelector("thead");
 const tbody = document.querySelector("tbody");
+
+function queryParsing(){
+  const url = new URL(window.location.href);
+  const querys =url.search.replace('?','').split('&&')
+  table_name=querys[0]
+  id=querys[1]
+
+}
+
 async function fetchData(){
-  const currentUrl = window.location.href;
-  const param = new URL(currentUrl).searchParams.get('id')
-  console.log(param);
-  console.log(useapi+param)
-await fetch(useapi+param)
+  queryParsing();
+  console.log(table_name)
+  console.log(id)
+  await fetch(`${usparameapi}/detail/${table_name}?id=${id}`)
   .then(res=>res.json())
   .then(res=>data=res)
 

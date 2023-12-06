@@ -1,5 +1,4 @@
 const express = require('express');
-const csv = require('csv-parser');
 const fs = require('fs');
 const cors = require('cors');
 const path = require('path')
@@ -8,11 +7,11 @@ const sqlite3 = require('sqlite3')
 const dbFile = 'mycrm1.db';
 
 const db = new sqlite3.Database(dbFile);
-// const userRouter = require('./src/userRouter')
 
 const app = express();
 const port = 4004;
 const itemsPerPage = 10;
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -44,11 +43,12 @@ app.use(express.static(path.join(__dirname, 'src')))
 //     });
 // }
 
+
 async function startServer() {
         // await loadDataIntoMemory();
         
         app.get('/:table', (req, res) => {
-          const db_table = req.params.table || 'users'
+          const db_table = req.params.table
           console.log(db_table)
           const query =`SELECT * FROM ${db_table}`;
 
@@ -69,31 +69,31 @@ async function startServer() {
             res.json(page_data);
           })
 
-          // const page = req.query.page || 1;
-          // const test = req.url
-          // console.log('test:'+ req.query.test)
-          // console.log('page번호:'+ req.query.page)
-          // const startIndex = (page-1) * itemsPerPage;
-          // const endIndex = startIndex + itemsPerPage;
-          // fieldnames = Object.keys(data[0] || {});
-          // console.log(fieldnames)
-          // // fieldnames.shift()
-          // console.log(`요청 GET 파라미터 : ${req.query.page}`)
-          // const totalPages = Math.ceil(data.length / itemsPerPage);
-          // const currPageRows = data.slice(startIndex, endIndex);
-
-          // const page_data= {
-          //   header:fieldnames, 
-          //   test,
-          //   data:currPageRows, 
-          //   total_pages: totalPages, 
-          //   page: parseInt(page), 
-          //   id: "Id"
-          // }
-          // res.json(page_data)
-
         });
 
+        app.get('/detail/:table',(req,res)=>{
+          const db_table = req.params.table
+          console.log(db_table)
+          const id = req.query.id
+          // console.log(req.href)
+          // console.log(req.params)
+          // console.log(id)
+          if(db_table.includes('table')){
+            return
+          }
+          const query = `SELECT * FROM ${db_table} WHERE Id='${id}'`;
+          console.log(query)
+          db.all(query, (err,rows)=>{
+            const fieldnames = Object.keys(rows[0] || {});
+            const currentdata = rows
+            const detail_data={
+              header:fieldnames,
+              data:currentdata
+            }
+            res.json(detail_data)
+          })
+        })
+ 
 
         // app.get('/user/:id',(req,res)=>{
         //   const page = req.params.id;

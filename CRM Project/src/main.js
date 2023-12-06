@@ -1,12 +1,17 @@
 const useapi = 'http://localhost:4004'
-let useurl ='http://localhost:4004/users'
+let useurl ='http://localhost:4004'
+let table_name ='users';
+let current_page = 1;
+
 let data = '';
 const table = document.querySelector("table");
 const thead = document.querySelector("thead");
 const tbody = document.querySelector("tbody");
 const pagination = document.querySelector(".pagination");
 async function fetchData(){
-await fetch(useurl)
+  table_url = useurl +`/${table_name}?page=${current_page}`
+  console.log(table_url)
+await fetch(table_url)
   .then(res=>res.json())
   .then(res=>data=res)
 
@@ -38,7 +43,7 @@ function handleTbody() {
       const td = document.createElement('td');
       if (index === 0) {
         const a = document.createElement('a');
-        a.setAttribute('href', `/src/Detail.html?id=${data}`);
+        a.setAttribute('href', `/src/Detail.html?${table_name}&&${data}`);
         a.textContent = data;
         td.appendChild(a);
       } else {
@@ -56,22 +61,22 @@ function handlePagination(){
   if(data.page!=1){
   const prev = document.createElement('a');
   prev.textContent='prev'
-  const params = `?page=${data.page-1}`
+  current_page -=1;
   // prev.setAttribute('href', params)
   prev.addEventListener('click', (e)=>{
     e.preventDefault();
-    router(params)
+    handleList()
   });
   pagination.appendChild(prev);
   }
   for(let i=1; i<data.total_pages+1; i++){
     const a = document.createElement('a');
     a.textContent = i;
-    const params = `?page=${i}`
     a.setAttribute('href', `?params`)
     a.addEventListener('click', (e)=>{
       e.preventDefault();
-      router(params)
+      current_page = i;
+      handleList()
     });
     pagination.appendChild(a);
   }
@@ -79,38 +84,31 @@ function handlePagination(){
   if(data.page!=data.total_pages){
     const next = document.createElement('a');
     next.textContent='next'
-    const params = `?page=${data.page+1}`
+    current_page +=1;
     // next.setAttribute('href', params)
     next.addEventListener('click', (e)=>{
       e.preventDefault();
-      router(params)
+      handleList()
     });
     pagination.appendChild(next);
     }
 }
 
-function router(param){
+function router(){
   tbody.innerHTML=''
   thead.innerHTML='';
   pagination.innerHTML='';
-  useurl = useapi 
-  useurl += param;
-  console.log(useurl)
+  current_page = 
   reload();
 }
 
-function handleList(table){
+function handleList(table=table_name){
+  table_name = table;
   tbody.innerHTML=''
   thead.innerHTML='';
   pagination.innerHTML='';
-  useurl = useapi 
-  useurl += `/${table}`;
-  console.log(useurl)
   reload();
 }
-
-
-
 
 
 
