@@ -4,7 +4,7 @@ const cors = require('cors');
 const path = require('path')
 const sqlite3 = require('sqlite3')
 
-const dbFile = 'mycrm1.db';
+const dbFile = 'mycrm2.db';
 
 const db = new sqlite3.Database(dbFile);
 
@@ -22,31 +22,7 @@ app.use(express.static(path.join(__dirname, 'src')))
 // app.use('/user', userRouter);
 
 
-// const data = []; 
-
-// let fieldnames;
-// async function loadDataIntoMemory() {
-//     return new Promise((resolve, reject) => {
-//         const fileStream = fs.createReadStream('Person.csv', 'utf-8');
-//         fileStream
-//             .pipe(csv())
-//             .on('data', (row) => {
-//                 data.push(row);
-//             })
-//             .on('end', () => {
-//                 resolve();
-//             })
-//             .on('error', (error) => {
-//                 console.error(error.message);
-//                 reject(error);
-//             });
-//     });
-// }
-
-
 async function startServer() {
-        // await loadDataIntoMemory();
-        
         app.get('/:table', (req, res) => {
           const db_table = req.params.table
           console.log(db_table)
@@ -64,33 +40,44 @@ async function startServer() {
               data:currPageRows,
               total_pages: totalPages,
               page: parseInt(page),
-              id:'id'
+              id:'id',
+              table_name:db_table,
             }
             res.json(page_data);
           })
 
         });
 
-        app.get('/detail/:table',(req,res)=>{
-          const db_table = req.params.table
-          console.log(db_table)
+        app.get('/stores/Store_detail',(req,res)=>{
+          console.log('Store_detail')
           const id = req.query.id
-          // console.log(req.href)
-          // console.log(req.params)
-          // console.log(id)
-          if(db_table.includes('table')){
-            return
-          }
-          const query = `SELECT * FROM ${db_table} WHERE Id='${id}'`;
-          console.log(query)
+          const query = `SELECT DISTINCT * FROM stores WHERE Id='${id}'`;
+          const query2 = `Select   strftime('%Y-%m', OrderAt) AS month,SUM(items.UnitPrice) as price ,COUNT(orders.id) as count
+          from orders join stores join items join orderitems on orders.StoreId = stores.Id and orders.Id = orderitems.OrderId and items.Id = orderitems.ItemId
+          WHERE stores.id ='${id}' GROUP BY month;`
+          const query3 = `Select UserId,users.Name, Count(UserId)as count
+          from orders join users on orders.UserId = users.Id
+          WHERE StoreId ='${id}'
+          GROUP BY UserId ORDER BY count DESC LIMIT 10;`
+
           db.all(query, (err,rows)=>{
-            const fieldnames = Object.keys(rows[0] || {});
             const currentdata = rows
-            const detail_data={
-              header:fieldnames,
-              data:currentdata
-            }
-            res.json(detail_data)
+          
+            db.all(query2,(err2,rows2)=>{
+              const monthData = rows2;
+
+                db.all(query3,(err3,rows3)=>{
+                  const customerData = rows3
+
+                  const store_data={
+                    data:currentdata,
+                    sale:monthData,
+                    customer:customerData
+                  }
+                  res.json(store_data)
+                })
+              
+            })
           })
         })
  
@@ -111,20 +98,8 @@ async function startServer() {
 
         // app.get('/search',(req,res)=>{
         //     const queryData = req.query.user;
-            
-        //     const search_data=[]
-        //     data.forEach((item)=>{
-        //       item.Name.includes(queryData) && search_data.push(item)
-        //     })
-        //     const page = Math.ceil(search_data.length/itemsPerPage) 
-        //     console.log(`데이터의 양 : ${search_data.length}`)
-        //     console.log(`총 페이지 수 : ${page}`)
-        //     res.render('index3.html',{
-        //       header: fieldnames,
-        //       data: search_data,
-        //       page: page,
-
-        //     })
+        //     console.log(queryData)
+        //    const query = ``
         // })
 
         app.listen(port, () => {
@@ -132,6 +107,12 @@ async function startServer() {
         });
 }
 
+function titledata(table){
+  if(table == 'stores'){return ('매장 정보') }
+  else if(table == 'users'){return ('고객 정보') }
+  else if(table == 'orders'){return ('상품주문 정보') }
+  else if(table == 'items'){return ('상품 정보') }
+}
 // Start the server
 startServer();
 

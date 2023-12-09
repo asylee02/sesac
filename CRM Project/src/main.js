@@ -18,6 +18,7 @@ await fetch(table_url)
   console.log(data)
 }
 
+
 function paging(){
   table.addEventListener("click", function(event) {
     const targetRow = event.target.closest("tr[data-href]");
@@ -37,16 +38,33 @@ function handleThead(){
 }
 
 function handleTbody() {
+  const currentTable = table_name;
   data.data.forEach((item) => {
     const tr = document.createElement('tr');
     Object.values(item).forEach((data, index) => {
       const td = document.createElement('td');
-      if (index === 0) {
+      if(data.length > 10){
         const a = document.createElement('a');
-        a.setAttribute('href', `/src/Detail.html?${table_name}&&${data}`);
+        
+        if(currentTable=='users'){
+          a.setAttribute('href', `/src/User_Detail.html?${currentTable}&&${data}`);  
+        }
+        else if(currentTable=='orders'){
+          a.setAttribute('href', `/src/Order_Detail.html?${currentTable}&&${data}`);  
+        }
+        else if(currentTable=='orderitems'){
+          a.setAttribute('href', `/src/OrderItem_Detail.html?${currentTable}&&${data}`);  
+        }
+        else if(currentTable=='items'){
+          a.setAttribute('href', `/src/Item_Detail.html?${currentTable}&&${data}`);  
+        }
+        else if(currentTable=='stores'){
+          a.setAttribute('href', `/src/Store_Detail.html?${currentTable}&&${data}`);  
+        }
         a.textContent = data;
         td.appendChild(a);
-      } else {
+
+      }else {
         td.textContent = data;
       }
       tr.appendChild(td);
