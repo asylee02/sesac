@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>사용자 목록</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="flex flex-col items-center w-screen">
+    <header class="w-1/2 bg-black h-12 flex items-center">
+        <a href="main.html" class="ml-5 text-white text-xl font-bold">메인으로 가기</a>
+    </header>
+    <div class="h-screen w-1/2 ">
+        <h1 class="text-2xl font-bold my-5">상품 정보</h1>
+        <table class="info w-full">
+            <thead>
+                <th>Name</th>
+                <th>unit_price</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <p class="text-2xl font-bold my-5">월간 매출액</p>
+        <div class="overflow-y-auto h-64">
+            <table class="month w-full">
+                <thead>
+                    <th>Month</th>
+                    <th>Total Revenue</th>
+                    <th>Item count</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table >
+        </div>
+        <p class="text-2xl font-bold my-5">월별 매출액 그래프</p>
+        <canvas id="myChart">
+
+        </canvas>
+
+    </div>
+</body>
+<script src="Item_Detail.js"></script>
+</html>

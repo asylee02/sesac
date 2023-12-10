@@ -5,38 +5,43 @@
     <link rel="stylesheet" href="index.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1 class="text-4xl font-bold mt-4 ml-4 title">가게 상세</h1>
-    <table class="info">
-        <thead>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Adress</th>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    <p>월간 매출액</p>
-    <table class="sale">
-        <thead>
-            <th>month</th>
-            <th>revenue</th>
-            <th>count</th>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    <p>단골 고객</p>
-    <table class="customer">
-        <thead>
-            <th>user_id</th>
-            <th>name</th>
-            <th>frequency</th>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+<body class="overflow-hidden flex flex-col items-center w-screen">
+    <header class="w-1/2 bg-black h-12 flex items-center">
+        <a href="main.html" class="text-white text-xl font-bold">메인으로 가기</a>
+    </header>
+    <div class="overflow-y-auto h-screen w-1/2 ">
+        <h1 class="ml-96 pl-2 text-2xl font-bold my-5">가게 정보</h1>
+        <table class="info w-full">
+            <thead>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Adress</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <p class="ml-96 pl-2 text-2xl font-bold my-5">월간 매출액</p>
+        <table class="sale w-full">
+            <thead>
+                <th>month</th>
+                <th>revenue</th>
+                <th>count</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table >
+        <p class="ml-96 pl-2 text-2xl font-bold my-5">단골 고객</p>
+        <table class="customer w-full">
+            <thead>
+                <th>user_id</th>
+                <th>name</th>
+                <th>frequency</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 </body>
 <script src="Store_Detail.js"></script>
 </html>

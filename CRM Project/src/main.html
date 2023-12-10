@@ -5,9 +5,9 @@
     <link rel="stylesheet" href="index.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <header class="w-screen bg-black">
-        <nav class="flex h-12 bg-black text-white text-xl w-1/3 justify-between items-center pl-10">
+<body class="flex flex-col items-center h-screen">
+    <header class="w-1/2 bg-black ">
+        <nav class="flex h-12 bg-black text-white text-xl w-1/2 justify-between items-center pl-10">
             <p class="hover:cursor-pointer" onclick="handleList('users')">User</p>
             <p class="hover:cursor-pointer" onclick="handleList('orders')">Order</p>
             <p class="hover:cursor-pointer" onclick="handleList('orderitems')">Order Item</p>
@@ -16,22 +16,29 @@
         </nav>
     </header>
  
-    <form class="" id="search" action='http://localhost:4004/' method="GET">
-        <input class="border border-black" placeholder="사용자 이름 검색" name="user" type="text" required>
-        <button class="border border-black bg-gray-300" type="submit">검색</button>
+    <form class="" id="search" action='http://localhost:4004/user/search' method="GET">
+        <input class="border border-black name" placeholder="사용자 이름 검색" name="user" type="text" required>
+        <select name="gender" id="gender" class="border border-black">
+            <option value="all" selected>성별</option>
+            <option value="female">female</option>
+            <option value="male">male</option>
+        </select>
+        <button class="border border-black bg-gray-300 " type="submit">검색</button>
     </form>
   
+   
+        <table class="h-full w-1/2">
+            <thead>
+                <tr>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+
     
-    <table>
-        <thead>
-            <tr>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
     <div class="pagination">
-        
     </div>
 </body>
 <script src="main.js"></script>
