@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jQuery</title>
+  <script src="//code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+  <h1>쇼핑 리스트</h1>
+  <ul id="shoppingList">
+    <li>빵</li>
+    <li>우유</li>
+    <li>계란</li>
+  </ul>
+  <input type="text" id="newItem" placeholder="추가할 상품 입력하시오">
+  <button id="addItemBtn">Add Item</button>
+  <script>
+    $(document).ready(()=>{
+      $('#addItemBtn').click(()=>{
+        const newItem = $('#newItem').val();
+
+        if(newItem !==''){
+          $('#shoppingList').append('<li>'+newItem+'</li>');
+        }
+        $('#newItem').val('');
+      })
+    })
+
+
+    // document.addEventListener('DomContentLoaded', ()=>{
+    //   const addItemBtn = document.getElementById('addItemBtn')
+    //   cosnole.log('기본')
+    //   addItemBtn.addEventListener('click',()=>{
+    //     console.log('click')
+    //     const newItemInput = document.getElementById('newItem');
+    //     const newItemValue = newItemInput.value;
+
+    //     //새로운 아이템 가져와서 목록에 추가
+    //     if(newItemValue.trim() !== ''){
+    //       const shoppingList = document.getElementById('shoppingList')
+    //       const newItemElement = document.createElement('li');
+    //       newItemElement.textContent=newItemElement;
+
+    //       shoppingList.appendChild(newItemElement);
+
+    //       //입력 필드 비우기
+    //       newItemValue.value ='';
+    //     }
+    //   })
+    // })
+  </script>
+</body>
+</html>

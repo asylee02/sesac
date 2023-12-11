@@ -49,7 +49,18 @@ function handleSaleTbody() {
     console.log(item);
     Object.values(item).forEach((data, index) => {
       const td = document.createElement('td');
-      td.textContent = data;
+      if(index==1){
+        td.textContent = data;
+        td.addEventListener('click',()=>{
+          console.log('el')
+        })
+        // fetch(`/st ores/Store_detail/${data}`)
+        // .then((res)=>res.json())
+        // .then((res)=>console.log(res))
+      }
+      else{
+        td.textContent=data;
+      }
       tr.appendChild(td);
     });
     sale_tbody.appendChild(tr);

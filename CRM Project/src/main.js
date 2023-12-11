@@ -22,15 +22,15 @@ async function fetchData(){
 console.log(data)
 
 
-function paging(){
-  table.addEventListener("click", function(event) {
-    const targetRow = event.target.closest("tr[data-href]");
-    if (targetRow) {
-      const href = targetRow.dataset.href;
-      window.location.href = href;
-    }
-  });
-}
+// function paging(){
+//   table.addEventListener("click", function(event) {
+//     const targetRow = event.target.closest("tr[data-href]");
+//     if (targetRow) {
+//       const href = targetRow.dataset.href;
+//       window.location.href = href;
+//     }
+//   });
+// }
 
 function handleThead(){
   data.header.forEach((item)=>{
@@ -50,20 +50,20 @@ function handleTbody() {
       if(data.length > 20){
         const a = document.createElement('a');
         if(currentTable=='users'){
-          a.setAttribute('href', `/src/User_Detail.html?${currentTable}&&${data}`);  
+          a.setAttribute('href', `/src/User_Detail.html?${data}`);  
         }
         else if(currentTable=='orders'){
-          a.setAttribute('href', `/src/Order_Detail.html?${currentTable}&&${data}`);  
+          a.setAttribute('href', `/src/Order_Detail.html?${data}`);  
         }
         else if(currentTable=='orderitems'){
           
-          a.setAttribute('href', `/src/OrderItem_Detail.html?${currentTable}&&${data}`);  
+          a.setAttribute('href', `/src/OrderItem_Detail.html?${data}`);  
         }
         else if(currentTable=='items'){
-          a.setAttribute('href', `/src/Item_Detail.html?${currentTable}&&${data}`);  
+          a.setAttribute('href', `/src/Item_Detail.html?${data}`);  
         }
         else if(currentTable=='stores'){
-          a.setAttribute('href', `/src/Store_Detail.html?${currentTable}&&${data}`);  
+          a.setAttribute('href', `/src/Store_Detail.html?${data}`);  
         }
         a.textContent = data;
         td.appendChild(a);
@@ -82,7 +82,8 @@ function handleTbody() {
 function handlePagination(){
   const zom = document.createElement('a');
   zom.textContent = '...'
-  
+
+  //prev 버튼
   if(data.page!=1){
   const prev = document.createElement('a');
   prev.textContent='prev'
@@ -94,6 +95,8 @@ function handlePagination(){
   });
   pagination.appendChild(prev);
   }
+
+  //pagenation 버튼
   for(let i=1; i<data.total_pages+1; i++){
     const a = document.createElement('a');
     a.textContent = i;
@@ -104,17 +107,20 @@ function handlePagination(){
       handleList()
     });
     a.style.display='inline';
+
+    //pagenation 버튼 이동
     if(5< Math.abs(current_page-i)){a.style.display='none';}
     if(i==data.total_pages-5){pagination.appendChild(zom)}
     if(i>data.total_pages-5){a.style.display='inline';}
     if(Math.abs(current_page-i)>data.total_pages-5){a.style.display='inline';}
+    if(i==current_page){a.style.backgroundColor='gray'}
     pagination.appendChild(a);
   }
-  
+
+  //next 버튼
   if(data.page!=data.total_pages){
     const next = document.createElement('a');
     next.textContent='next'
-    // next.setAttribute('href', params)
     next.addEventListener('click', (e)=>{
       e.preventDefault();
       current_page +=1;
@@ -136,16 +142,6 @@ function handleList(table=table_name){
 
 
 
-async function reload(){
-  console.log('reload')
-  console.log(data)
-  console.log('3번쨰'+current_page)
-  await fetchData();
-  handleThead();
-  handleTbody();
-  paging();
-  handlePagination();
-}
 function handleSearchPagination(){
   const zom = document.createElement('a');
   zom.textContent = '...'
@@ -161,6 +157,7 @@ function handleSearchPagination(){
   });
   pagination.appendChild(prev);
   }
+
   for(let i=1; i<data.total_pages+1; i++){
     const a = document.createElement('a');
     a.textContent = i;
@@ -194,7 +191,6 @@ function SearchReData(){
   pagination.innerHTML='';
   handleThead();
   handleTbody();
-  paging();
   handleSearchPagination();
 }
 
@@ -206,17 +202,26 @@ async function search(name, gender){
   .then(res=>data=res)
   console.log(data)
 }
-form.addEventListener('submit',async(e)=>{
-  const name = input_name.value
-  const gender = input_gender.value
-  e.preventDefault();
-  await search(name,gender);
-  SearchReData()
-})
+
+
+async function reload(){
+  console.log('reload')
+  console.log(data)
+  console.log('3번쨰'+current_page)
+  await fetchData();
+  handleThead();
+  handleTbody();
+  // paging();
+  handlePagination();
+}
 
 document.addEventListener("DOMContentLoaded", async()=>{
-
-  
   reload();
-
+  form.addEventListener('submit',async(e)=>{
+    const name = input_name.value
+    const gender = input_gender.value
+    e.preventDefault();
+    await search(name,gender);
+    SearchReData()
+  })
 });

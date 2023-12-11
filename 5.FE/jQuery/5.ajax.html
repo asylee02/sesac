@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jQuery</title>
+  <script src="//code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+  <H2>제이쿼리 AJAX로 비동기 처리하기</H2>
+  <div id="contentContainer">
+
+  </div>
+  <button id="loadContentBtn">Load Content</button>
+  <script>
+    $(document).ready(()=>{
+      $('#loadContentBtn').click(()=>{
+       $.ajax({
+        url:'https://jsonplaceholder.typicode.com/posts/1',
+        method:'GET',
+        dataType: 'json',
+        success: function(data){
+          $('#contentContainer').html('<p>Title: '+data.title+'</p>'+
+                                      '<p>Body: '+ data.body + '</p>')
+        },
+        error: function(){
+          alert('Failed to load content')
+        }
+       })
+       
+      })
+    })
+  </script>
+</body>
+</html>

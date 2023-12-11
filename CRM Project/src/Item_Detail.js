@@ -15,7 +15,6 @@ function queryParsing(){
   const querys =url.search.replace('?','').split('&&')
   table_name=querys[0]
   id=querys[1]
-
 }
 
 async function fetchData(){

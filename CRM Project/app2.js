@@ -2,7 +2,9 @@ const express = require('express');
 const fs = require('fs');
 const cors = require('cors');
 const path = require('path')
-const sqlite3 = require('sqlite3')
+const sqlite3 = require('sqlite3').verbose();
+const morgan = require('morgan')
+
 
 const dbFile = 'mycrm2.db';
 
@@ -12,7 +14,7 @@ const app = express();
 const port = 4004;
 const itemsPerPage = 10;
 
-
+app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
@@ -23,12 +25,15 @@ app.use(express.static(path.join(__dirname, 'src')))
 
 
 async function startServer() {
+
+      //검색 기능
         app.get('/user/search', (req, res) => {
           const user = req.query.user;
+          const gender = req.query.gender;
           console.log(req.url)
           console.log(user)
-          const query = `SELECT * from users
-          WHERE Name LIKE '%${user}%'`
+          
+          const query = gender =='all'? `SELECT * from users WHERE Name LIKE '%${user}%'` : `SELECT * from users WHERE Name LIKE '%${user}%' and Gender='${gender}'`
           console.log(query)
           db.all(query,(err,rows)=>{
             console.log(rows)
@@ -50,10 +55,10 @@ async function startServer() {
           })
         });
         
-
+        //테이블 조회
         app.get('/:table', (req, res) => {
           const db_table = req.params.table
-          if(db_table =='favicon.ico'){return}
+          // if(db_table =='favicon.ico'){return}
           console.log(db_table)
           const query =`SELECT * FROM ${db_table}`;
 
@@ -77,6 +82,7 @@ async function startServer() {
 
         });
 
+        //가게 상세정보
         app.get('/stores/Store_detail',(req,res)=>{
           console.log('Store_detail')
           const id = req.query.id
@@ -109,6 +115,13 @@ async function startServer() {
             })
           })
         })
+
+        app.get('/store/Store_detail/:month',(req,res)=>{
+          console.log('hello')
+          res.json('hello')
+        })
+
+        //유저 상세정보
         app.get('/users/User_Detail',(req,res)=>{
           console.log('user_detail')
           const id = req.query.id
@@ -140,11 +153,11 @@ async function startServer() {
                   res.json(userData)
                 })
               })
-              
-
             })
           })
         })
+
+        //아이템 상세 페이지
         app.get('/items/Item_Detail',(req,res)=>{
           console.log('item_Detail')
           const id = req.query.id
@@ -170,12 +183,7 @@ async function startServer() {
         });
 }
 
-function titledata(table){
-  if(table == 'stores'){return ('매장 정보') }
-  else if(table == 'users'){return ('고객 정보') }
-  else if(table == 'orders'){return ('상품주문 정보') }
-  else if(table == 'items'){return ('상품 정보') }
-}
+
 // Start the server
 startServer();
 

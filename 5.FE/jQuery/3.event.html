@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jQuery</title>
+  <script src="//code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    #myDiv{
+      width:200px;
+      height:200px;
+      background-color: lightblue;
+    }
+  </style>
+</head>
+<body>
+  <div id="myDiv">
+    <p id="displayText"></p>
+  </div>
+  <button id="changeColorBtn">Changeg Color</button>
+  <script>
+
+
+    $(document).ready(()=>{
+      const myDiv = $("#myDiv");
+      const displayText = $("#displayText")
+      $('#changeColorBtn').click(()=>{
+        //배경색을 랜덤으로 바꾸기
+        const randomColor = getRandomColor();
+        $('#myDiv').css('background-color',randomColor);
+      })
+      function getRandomColor(){
+      const letters = '0123456789ABCDEF'
+      var color = '#';
+      for (var i =0; i<6; i++){
+        color += letters[Math.floor(Math.random()*16)];
+      }
+      return color;
+    }
+    myDiv.hover(
+    ()=>{
+      const currentColor = myDiv.css('background-color');
+      displayText.text('Current Color: '+currentColor)
+      displayText.css('color','white');
+    },
+    ()=>{
+      displayText.text('Hover me');
+      displayText.css('color','black');
+    })
+
+    });
+
+   
+  </script>
+</body>
+</html>
