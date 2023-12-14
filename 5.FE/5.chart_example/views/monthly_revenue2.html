@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>monthly_reveue</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>월간 매출액</h1>
+    <canvas id="revenueChart"></canvas>
+    <script>
+        fetch('/api/chart-data')
+        .then(response => response.json())
+        .then(chartData => {
+            console.log(chartData.labels, chartData.revenues)
+            
+            var ctx = document.getElementById('revenueChart').getContext('2d');
+            var revenueChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: 'Monthly Revenue',
+                        data: chartData.revenues,
+                        backgroundColor: 'aqua',
+                        borderColor: 'blue',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+        </script>
+</body>
+</html>

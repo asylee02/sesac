@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>캔버스 2</title>
+    <style>
+      canvas{
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="textCanvas" width="400" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('textCanvas');
+        const context = canvas.getContext('2d')
+
+        const player = {
+          x: 150,
+          y: 400-60,
+          speed: 10,
+        }
+
+        const meteo = {
+          x: Math.random() * (canvas.width -60),
+          y: 0,
+          speed: 2
+        }
+
+        const image2 = new Image();
+        image2.src = "https://img.icons8.com/color/48/rocket--v1.png"
+        image2.onload = ()=>{
+          draw()
+            
+        }
+
+        const image1 = new Image();
+        image1.src = "https://img.icons8.com/windows/32/comet.png"
+        image1.onload = ()=>{
+          draw();
+        }
+
+        function draw(){
+          context.clearRect(0,0, canvas.width, canvas.height);
+
+          context.drawImage(image1, meteo.x, meteo.y, 30, 30)
+
+          context.drawImage(image2, player.x, player.y, 50, 50);
+          
+          meteo.y += meteo.speed;
+          console.log(meteo.speed)
+          if(meteo.y > canvas.height){
+            meteo.y = 0;
+            meteo.x = Math.random() * (canvas.width -60)
+          }
+          if(meteo.y == player.y && (Math.floor(meteo.x) < player.x || player.x < Math.floor(meteo.x))){
+           console.log('끝')
+           context.fillStyle = 'red';
+           context.fillText('Game Over',50,150)
+          }
+          else{
+          requestAnimationFrame(draw);
+          } 
+        }
+
+
+        draw();
+        window.addEventListener('keydown', (e)=>{
+          switch(e.key){
+            case 'ArrowLeft':
+                player.x -=player.speed
+              break;
+            case 'ArrowRight':
+                player.x +=player.speed
+              break;
+            case 'ArrowUp':
+                player.y -=player.speed
+              break;
+            case 'ArrowDown':
+                player.y +=player.speed
+              break;
+          }
+        })
+
+    </script>
+  </body>
+</html>

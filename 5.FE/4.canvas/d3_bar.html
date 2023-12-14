@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <style>
+        rect{
+            fill: steelblue,
+        }   
+        text{
+            fill: white;
+        }
+    </style>
+    <title>d3를 이용한 바 그래프</title>
+</head>
+<body>
+    <canvas id="barGraph" width="400" height="200"></canvas>
+
+    <script>
+       const dataset = [10, 20, 30, 40, 50]
+       const svgWidth = 300;
+       const svgHeight = 150;
+
+              const svg = d3.select('body').append('svg').attr('width', svgWidth).attr('height', svgHeight)
+
+       svg.selectAll('rect')
+       .data(dataset)
+       .enter()
+       .append('rect')
+       .attr('x',(d, i)=> i * 60)
+       .attr('y', (d) => svgHeight -d)
+       .attr('width', 50)
+       .attr('height', (d)=>d);
+
+       svg.selectAll('text')
+       .data(dataset)
+       .enter()
+       .append('text')
+       .text((d)=>d)
+       .attr('x',(d, i)=> i * 60 + 25 )
+       .attr('y', (d) => svgHeight - d + 15)
+       .attr('text-anchor','middle');
+
+    </script>
+</body>
+</html>

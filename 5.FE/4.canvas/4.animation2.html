@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>캔버스 2</title>
+    <style>
+      canvas{
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="textCanvas" width="400" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById('textCanvas');
+        const context = canvas.getContext('2d')
+        const ball = {
+            x:50,
+            y:50,
+            radius:20,
+            dx: 2, // 초기속도
+            dy: 0,  // 초기속도
+            gravity:0.2, // 적절한 가속도
+            bounce: 0.7 // 튕김 계수
+        }
+
+        function drawBall(){
+            context.clearRect(0,0,canvas.width, canvas.height)
+
+            context.beginPath();
+            context.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2);
+            context.fillStyle = "#0095DD";
+            context.fill();
+            context.closePath();
+            
+
+            ball.dy += ball.gravity;
+
+            ball.y += ball.dy;
+            ball.x += ball.dx;
+
+            if(ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0){
+                ball.dx = -ball.dx;
+            }
+
+            if(ball.y + ball.radius > canvas.height){
+                ball.y = canvas.height - ball.radius;
+                ball.dy = -ball.dy * ball.bounce;
+            }
+
+            requestAnimationFrame(drawBall);
+        }
+
+        drawBall();
+        
+    </script>
+  </body>
+</html>

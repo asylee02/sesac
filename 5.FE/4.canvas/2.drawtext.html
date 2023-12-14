@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>캔버스 2</title>
+    <style>
+      canvas{
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="textCanvas" width="400" height="200"></canvas>
+
+    <script>
+      const canvas = document.getElementById('textCanvas');
+      const context = canvas.getContext('2d')
+
+      context.fillText('Hello Canvas!', 50, 100); // x,y
+      context.fillText('Hello Canvas!', 200, 100); // x,y
+      
+      // 스타일
+      context.fillStyle = 'red';
+      context.fillText('빨간 글씨',50,150)
+
+      context.font = 'italic 20px Times New Roman'
+      context.fillStyle = 'blue'
+      context.fillText('blue italic', 200,150)
+
+    </script>
+  </body>
+</html>

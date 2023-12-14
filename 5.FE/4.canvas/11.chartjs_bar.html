@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Chart.js를 이용한 바 그래프</title>
+</head>
+<body>
+    <canvas id="barGraph" width="400" height="200"></canvas>
+
+    <script>
+        const ctx = document.getElementById('barGraph').getContext('2d')
+
+        const barGraph = new Chart(ctx,{
+            type: 'line',
+            data:{
+                labels: ['Red', 'Green', 'Blue', 'Yellow'],
+                datasets:[
+                    {
+                        label:'Data',
+                        data : [12,3,4,5],
+                        backgroundColor: ['Red', 'Green', 'Blue', 'Yellow']
+
+                    }
+                ]
+            },
+            Option:{}
+
+        })
+    </script>
+</body>
+</html>

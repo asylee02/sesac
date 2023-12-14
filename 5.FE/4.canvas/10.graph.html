@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>캔버스 2</title>
+    <style>
+      canvas{
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="textCanvas" width="400" height="300"></canvas>
+
+    <script>
+      const canvas = document.getElementById('textCanvas');
+      const context = canvas.getContext('2d')
+
+      const graphData = {
+        A: 10,
+        B: 20,
+        C: 40,
+        D: 60,
+        E: 80
+      };
+
+      //바 그래프 그리기
+      drawBarGraph(graphData);
+
+      function drawBarGraph(data){
+        //fillRect 사용해서 데이터 그리기
+        const barWidth = 30;
+        let startX = 20;
+
+        for (const key in data){
+          const barHeight = data[key];
+          context.fillStyle = 'red';
+          context.fillRect(startX, 200-barHeight, barWidth, barHeight);
+
+          context.fillStyle = 'black'
+          context.fillText(key, startX + barWidth/2, 200+10)
+
+          startX += 50;
+        }
+      }
+
+      drawLineGraph(graphData)
+
+      function drawLineGraph(data){
+        const barWidth = 50;
+        let startX =35;
+        const keyData = []
+        for (const key in data){
+          keyData.push(key)
+        }
+        console.log(keyData)
+        for(let i=0; i<keyData.length-1; i++){
+          console.log(data[keyData[i]],data[keyData[i+1]])
+          context.beginPath();
+          context.lineWidth = 3 ;
+          context.moveTo(startX, 200-data[keyData[i]])
+          context.lineTo(startX+barWidth,200-data[keyData[i+1]]);
+          startX += 50;
+          context.stroke();
+          context.closePath();
+        }
+      }
+    </script>
+  </body>
+</html>

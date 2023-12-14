@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>캔버스 2</title>
+    <style>
+      canvas{
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="textCanvas" width="400" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('textCanvas');
+        const context = canvas.getContext('2d')
+
+        //그라데이션
+        const gradation = context.createLinearGradient(0,0, canvas.width, 0);
+        gradation.addColorStop(0, 'red');
+        gradation.addColorStop(0.5, 'green');
+        gradation.addColorStop(1, 'blue');
+        context.fillStyle = gradation;
+        context.fillRect(0,0, canvas.width, canvas.height);
+
+        
+        const image2 = new Image();
+        image2.src = "https://img.icons8.com/color/48/rocket--v1.png"
+        image2.onload = ()=>{
+            context.drawImage(image2, 300, 300, 100, 100);
+        }
+        //글자 추가
+        context.font = '30px Arial';
+        context.fillStyle = '#FFFFFF';
+        context.fillText('Canvas Text', 50, 100)
+        
+    </script>
+  </body>
+</html>

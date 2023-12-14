@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>캔버스 2</title>
+    <style>
+      canvas{
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="textCanvas" width="400" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById('textCanvas');
+        const context = canvas.getContext('2d')
+
+        //애니메이션 - 반복적으로 변경된 좌표에 내용을 계속 출력...
+        let x=50;
+        function draw(){
+            context.clearRect(0,0, canvas.width, canvas.height);
+            context.fillRect(x, 50, 50, 50);
+
+            x+=5;
+
+            if(x>canvas.width){
+                x=0;
+            }
+            requestAnimationFrame(draw)
+            console.log(x)
+
+        }
+        draw();
+    </script>
+  </body>
+</html>
