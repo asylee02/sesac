@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>회원가입</h1>
+    <div id="join">
+        <p>가입할 이메일을 적어주세요</p>
+        <label for="">이메일 :</label>
+        <input id="input" type="text">
+        <button onclick="handlesubmit()">인증코드 발송</button>
+    </div>
+    <div style="display: none;" id="code">
+        <p>이메일로 인증 코드가 발송되었습니다</p>
+        <label for="">인증코드 : </label>
+        <input id="code_input" type="text">
+        <button onclick="handlecode()">인증코드 확인</button>
+        <p id="con"></p>
+    </div>
+
+
+    <script>
+        console.log('시작')
+        const join = document.querySelector('#join')
+        const code_input = document.querySelector('#code')
+        const input = document.querySelector('#input')
+        const input2 = document.querySelector('#code_input')
+        const con = document.querySelector('#con')
+        let code = '';
+        async function handlesubmit(){
+            alert(`${input.value}로 메일이 전송되었습니다!`)
+            join.style.display='none';
+            code_input.style.display='block';
+
+            console.log(input.value)
+            await fetch('/join',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                },
+                body: input.value,
+            })
+            .then((res)=>console.log(res))
+            
+            await fetch('/code')
+            .then((res)=>res.text())
+            .then((res)=>code=res)
+            console.log(code)   
+        }
+        async function handlecode(){
+            console.log(input2.value)
+            console.log(code)
+            if (code == input2.value){
+                con.textContent = '회원가입이 완료되었습니다!'
+            }
+            else{
+                alert('코드를 다시 입력해주세요!')
+            }
+        }
+        
+    </script>
+</body>
+</html>
