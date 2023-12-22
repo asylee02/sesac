@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #messageContainer {
+            height: 200px;
+            width:50%;
+            overflow-y : scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }   
+        .messageBubble {
+            max-width: 100%;
+            padding: 8px;
+            border-radius:10px;
+
+        }
+        .sentMessage{
+            text-align: right;
+            background-color: lightgray;
+            margin-bottom: 10px;
+            float:right;
+            align-self: flex-end;
+        }
+        .receivedMessage{
+            text-align: left;
+            background-color: lightgoldenrodyellow;
+            margin-bottom: 10px;
+            float:left;
+            align-self: flex-start;
+        }
+    </style>
+</head>
+<body>
+    <div id="messageContainer"></div>
+    <input type="text" id="inputMessage"/>
+    <button id="sendButton">전송</button>
+
+    <script>
+        const socket = new WebSocket('ws://127.0.0.1:8000');
+
+        socket.addEventListener('open',(evnet)=>{
+            console.log('서버에 연결되었습니다.')
+        })
+
+        socket.addEventListener('message', (event) => {
+            const message = JSON.parse(event.data);
+            console.log(message);
+            displayMessage(message)
+        })
+
+        document.getElementById('sendButton').addEventListener('click',()=>{
+            const message = document.getElementById('inputMessage').value;
+            sendMessage(message);
+        })
+
+        function sendMessage(message){
+            const messageObj = {content : message};
+            socket.send(JSON.stringify(messageObj));
+        }
+
+        function displayMessage(message){
+            const messageContainer = document.getElementById('messageContainer');
+            const messageElement = document.createElement('div');
+
+            messageElement.classList.add('messageBubble')
+            if(message.type == 'sent'){
+                messageElement.classList.add('sentMessage');
+            }
+            else if (message.type === 'received'){
+                messageElement.classList.add('receivedMessage');
+            }
+            const ms = message.content
+            console.log(message)
+            console.log(message.content)
+            messageElement.textContent = message.content;
+            messageContainer.appendChild(messageElement);
+            messageContainer.scrollup = messageContainer.scrollHeight;
+        }
+    </script>
+</body>
+</html>
